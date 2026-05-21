@@ -75,26 +75,19 @@ La disponibilidad del hardware es el criterio de mayor peso porque el equipo no 
 
 ### **1.3 Selección del proyecto**
 
-Se seleccionó el proyecto **Base + fotosensor** por ser el que mejor equilibra funcionalidad, viabilidad técnica y tiempo de implementación para un equipo de tres integrantes con menos de dos meses disponibles y cursando su primera materia de sistemas embebidos.
-
-El proyecto Base puro fue descartado por quedar corto en funcionalidad: con un único sensor analógico (el joystick/potenciómetros) el sistema tiene poca riqueza de comportamiento y dificulta demostrar el uso de múltiples canales ADC, que es uno de los objetivos de aprendizaje del curso. Incorporar la fotocélula (LDR) agrega un segundo sensor analógico de forma extremadamente simple —una resistencia y una conexión al ADC— sin ningún protocolo adicional, resolviendo ese punto y añadiendo una lógica real útil: el riego nocturno puede habilitarse o inhibirse según la lectura de luz ambiente.
-
-El proyecto Base + fotosensor + humedad fue descartado porque el sensor capacitivo de humedad de suelo requiere calibración, su respuesta es más lenta y agrega un tercer canal ADC a gestionar, lo que sumado a la integración del joystick, la LDR, el I²C (EEPROM + LCD) y el UART (HM-10) hace el proyecto demasiado extenso para el tiempo disponible.
-
+Se seleccionó el proyecto **Base + fotosensor** por ser el que mejor equilibra funcionalidad, viabilidad técnica y tiempo de implementación.
 Los desafíos principales identificados son la integración de múltiples canales ADC con lecturas no bloqueantes, el diseño de la máquina de estados principal con tres modos bien diferenciados, y la implementación del menú interactivo sobre LCD vía I²C.
 
 #### **1.3.1 Diagrama en bloques**
 
 <img width="1536" height="1024" alt="7a618d47-7b33-423d-8385-0af6063f6b5f" src="https://github.com/user-attachments/assets/3a9c7afa-f392-46e0-99d6-5bf6d9e0f1ff" />
 
-
 ---
 
 ## **2. Elicitación de requisitos y casos de uso**
 
-Argentina es uno de los mayores productores agropecuarios del mundo: ocupa posiciones de liderazgo global en la exportación de soja, maíz, trigo, girasol y carne bovina. La producción se concentra en la región pampeana —provincias de Buenos Aires, Córdoba, Santa Fe, Entre Ríos y La Pampa— donde el viento es un factor climático determinante. El viento Pampero y el Sudestada son fenómenos frecuentes que pueden superar los 60 km/h con cambios bruscos de dirección, haciendo que el riego por aspersión o goteo mal gestionado desperdicie hasta el 40% del agua aplicada o dañe cultivos sensibles.
-
-En este contexto, cualquier sistema de riego inteligente que incorpore el viento como variable de decisión tiene aplicación directa y relevancia real. Sin embargo, los sistemas comerciales disponibles en Argentina —como los controladores de riego de **Aquario**, **Matic** o **Rain Bird**— se limitan a temporizadores programables o sensores de lluvia simples; ninguno incorpora en un dispositivo económico la combinación de sensor de viento, sensor de luz, menú interactivo local y conectividad Bluetooth que propone este prototipo. Esto posiciona al SRAGV como una solución viable, de bajo costo y con componentes accesibles en el mercado local.
+Argentina se destaca a nivel mundial como un actor clave en la producción de materias primas y bienes agrícolas. Sin embargo, optimizar el uso de los recursos hídricos en los sistemas de producción locales representa un desafío crítico. En regiones de alta productividad o con características geográficas particulares como la Patagonia argentina, la presencia de vientos intensos y constantes se convierte en un factor adverso para el riego por aspersión tradicional. Las ráfagas de viento provocan la "deriva" del agua (desviándola de las zonas objetivo), aumentan la tasa de evaporación antes de que el recurso llegue al suelo y generan pérdidas económicas significativas y un desperdicio severo del recurso hídrico.
+En este contexto, cualquier sistema de riego inteligente que incorpore el viento como variable de decisión tiene aplicación directa y relevancia real. Esto posiciona al SRAGV como una solución viable, de bajo costo y con componentes accesibles en el mercado local.
 
 ---
 
