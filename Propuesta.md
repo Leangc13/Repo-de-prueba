@@ -182,7 +182,7 @@ En este contexto, cualquier sistema de riego inteligente que incorpore el viento
 
 | Componente | Uso en el proyecto |
 | :---- | :---- |
-| STM32 Nucleo-F103RB (o similar) | Microcontrolador principal |
+| STM32 Nucleo-F103RB | Microcontrolador principal |
 | DIP Switches (4 posiciones) | Habilitar/deshabilitar cada zona de riego de forma manual |
 | Botones (2) | Navegación del menú interactivo |
 | LEDs (4 zonas + 1 alarma) | Indicación visual del estado de cada zona de riego y alarma |
