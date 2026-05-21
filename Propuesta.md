@@ -85,7 +85,8 @@ Los desafíos principales identificados son la integración de múltiples canale
 
 #### **1.3.1 Diagrama en bloques**
 
-*(Agregar imagen del diagrama en bloques aquí. Descripción: microcontrolador STM32 en el centro; hacia la izquierda, los sensores analógicos [joystick/potenciómetros para viento y LDR para luz] conectados al ADC; hacia arriba, el bus I²C con la EEPROM AT24C02 y el display LCD 16×2; hacia la derecha, el módulo HM-10 conectado por UART; hacia abajo, los GPIO de salida para los 4 LEDs de sector [N, S, E, O], los LEDs de estado, el buzzer y los botones/DIP switches de entrada.)*
+<img width="1536" height="1024" alt="7a618d47-7b33-423d-8385-0af6063f6b5f" src="https://github.com/user-attachments/assets/3a9c7afa-f392-46e0-99d6-5bf6d9e0f1ff" />
+
 
 ---
 
