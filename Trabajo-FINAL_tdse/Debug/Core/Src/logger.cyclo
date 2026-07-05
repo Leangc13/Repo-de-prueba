@@ -1,0 +1,6 @@
+../Core/Src/logger.c:71:6:logger_init	1
+../Core/Src/logger.c:81:6:logger_update	3
+../Core/Src/logger.c:99:6:logger_uart_rx_callback	5
+../Core/Src/logger.c:121:6:HAL_UART_RxCpltCallback	2
+../Core/Src/logger.c:130:13:process_bt_command	4
+../Core/Src/logger.c:153:13:send_telemetry	1
