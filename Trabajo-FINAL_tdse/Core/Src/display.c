@@ -2,33 +2,6 @@
  * Copyright (c) 2026 Juan Manuel Cruz <jcruz@fi.uba.ar> <jcruz@frba.utn.edu.ar>.
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- *
- * 3. Neither the name of the copyright holder nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
- * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
- * COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
- * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
- * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
- * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
- * IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- *
  * @author : Juan Manuel Cruz <jcruz@fi.uba.ar> <jcruz@frba.utn.edu.ar>
  */
 
@@ -38,13 +11,15 @@
 
 /* Application & Tasks includes */
 #include "display.h"
+#include "board.h"
 
 /********************** macros and definitions *******************************/
 
 /********************** internal data declaration ****************************/
-extern I2C_HandleTypeDef hi2c1;
 
 /********************** internal functions declaration ***********************/
+static void lcd_enable_pulse(void);
+static void lcd_send_nibble(char data);
 
 /********************** internal data definition *****************************/
 
@@ -52,67 +27,72 @@ extern I2C_HandleTypeDef hi2c1;
 
 /********************** external functions definition ************************/
 
+static void lcd_enable_pulse(void)
+{
+	HAL_GPIO_WritePin(LCD_EN_PORT, LCD_EN_PIN, GPIO_PIN_SET);
+	HAL_Delay(1);
+	HAL_GPIO_WritePin(LCD_EN_PORT, LCD_EN_PIN, GPIO_PIN_RESET);
+	HAL_Delay(1);
+}
+
+static void lcd_send_nibble(char data)
+{
+	HAL_GPIO_WritePin(LCD_D4_PORT, LCD_D4_PIN, (data & 0x01) ? GPIO_PIN_SET : GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(LCD_D5_PORT, LCD_D5_PIN, (data & 0x02) ? GPIO_PIN_SET : GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(LCD_D6_PORT, LCD_D6_PIN, (data & 0x04) ? GPIO_PIN_SET : GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(LCD_D7_PORT, LCD_D7_PIN, (data & 0x08) ? GPIO_PIN_SET : GPIO_PIN_RESET);
+}
+
 void lcd_send_cmd(char cmd)
 {
-	char data_u, data_l;
-	uint8_t data_t[4];
-	
-	/* PCF8574 mappings: D7 D6 D5 D4 BL EN RW RS */
-	data_u = (cmd & 0xf0);
-	data_l = ((cmd << 4) & 0xf0);
-	
-	/* Send upper nibble */
-	data_t[0] = data_u | 0x0C;  /* en=1, rs=0, bl=1 */
-	data_t[1] = data_u | 0x08;  /* en=0, rs=0, bl=1 */
-	/* Send lower nibble */
-	data_t[2] = data_l | 0x0C;  /* en=1, rs=0, bl=1 */
-	data_t[3] = data_l | 0x08;  /* en=0, rs=0, bl=1 */
-	
-	HAL_I2C_Master_Transmit(&hi2c1, LCD_ADDR, (uint8_t *)data_t, 4, 100);
+	HAL_GPIO_WritePin(LCD_RS_PORT, LCD_RS_PIN, GPIO_PIN_RESET); /* RS=0 for command */
+	lcd_send_nibble(cmd >> 4);   /* Upper nibble */
+	lcd_enable_pulse();
+	lcd_send_nibble(cmd & 0x0F); /* Lower nibble */
+	lcd_enable_pulse();
 }
 
 void lcd_send_data(char data)
 {
-	char data_u, data_l;
-	uint8_t data_t[4];
-	
-	data_u = (data & 0xf0);
-	data_l = ((data << 4) & 0xf0);
-	
-	/* Send upper nibble */
-	data_t[0] = data_u | 0x0D;  /* en=1, rs=1, bl=1 */
-	data_t[1] = data_u | 0x09;  /* en=0, rs=1, bl=1 */
-	/* Send lower nibble */
-	data_t[2] = data_l | 0x0D;  /* en=1, rs=1, bl=1 */
-	data_t[3] = data_l | 0x09;  /* en=0, rs=1, bl=1 */
-	
-	HAL_I2C_Master_Transmit(&hi2c1, LCD_ADDR, (uint8_t *)data_t, 4, 100);
+	HAL_GPIO_WritePin(LCD_RS_PORT, LCD_RS_PIN, GPIO_PIN_SET); /* RS=1 for data */
+	lcd_send_nibble(data >> 4);   /* Upper nibble */
+	lcd_enable_pulse();
+	lcd_send_nibble(data & 0x0F); /* Lower nibble */
+	lcd_enable_pulse();
 }
 
 void lcd_init(void)
 {
-	/* 4 bit initialisation */
-	HAL_Delay(50);  /* wait for >40ms */
-	lcd_send_cmd(0x30);
-	HAL_Delay(5);   /* wait for >4.1ms */
-	lcd_send_cmd(0x30);
-	HAL_Delay(1);   /* wait for >100us */
-	lcd_send_cmd(0x30);
+	/* 4 bit initialisation sequence */
+	HAL_Delay(50);  /* Wait for >40ms after VDD rises to 2.7V */
+	HAL_GPIO_WritePin(LCD_RS_PORT, LCD_RS_PIN, GPIO_PIN_RESET);
+	
+	lcd_send_nibble(0x03);
+	lcd_enable_pulse();
+	HAL_Delay(5);   /* Wait for >4.1ms */
+	
+	lcd_send_nibble(0x03);
+	lcd_enable_pulse();
+	HAL_Delay(1);   /* Wait for >100us */
+	
+	lcd_send_nibble(0x03);
+	lcd_enable_pulse();
 	HAL_Delay(10);
-	lcd_send_cmd(0x20);  /* 4bit mode */
+	
+	lcd_send_nibble(0x02); /* Set 4-bit mode */
+	lcd_enable_pulse();
 	HAL_Delay(10);
 
-	/* display initialisation */
-	lcd_send_cmd(0x28); /* Function set --> DL=0 (4 bit mode), N = 1 (2 line display) F = 0 (5x8 characters) */
+	/* Display initialisation */
+	lcd_send_cmd(0x28); /* DL=0 (4 bit mode), N = 1 (2 line display), F = 0 (5x8 characters) */
 	HAL_Delay(1);
-	lcd_send_cmd(0x08); /* Display on/off control --> D=0,C=0, B=0  ---> display off */
+	lcd_send_cmd(0x08); /* Display off */
 	HAL_Delay(1);
-	lcd_send_cmd(0x01); /* clear display */
+	lcd_send_cmd(0x01); /* Clear display */
+	HAL_Delay(2);
+	lcd_send_cmd(0x06); /* Entry mode set: increment cursor, no shift */
 	HAL_Delay(1);
-	HAL_Delay(1);
-	lcd_send_cmd(0x06); /* Entry mode set --> I/D = 1 (increment cursor) & S = 0 (no shift) */
-	HAL_Delay(1);
-	lcd_send_cmd(0x0C); /* Display on/off control --> D = 1, C and B = 0. (Cursor and blink, last two bits) */
+	lcd_send_cmd(0x0C); /* Display on, cursor off */
 }
 
 void lcd_send_string(char *str)
@@ -138,7 +118,7 @@ void lcd_set_cursor(int row, int col)
 
 void lcd_clear(void)
 {
-	lcd_send_cmd(0x01); /* clear display */
+	lcd_send_cmd(0x01); /* Clear display */
 	HAL_Delay(2);       /* Command takes a bit longer */
 }
 

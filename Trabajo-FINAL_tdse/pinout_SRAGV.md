@@ -30,6 +30,12 @@ A continuación se detalla el conexionado físico (Pinout) diseñado para la pla
 | **Sector Este (E)** | `GPIOB`, `PIN_6` | `SET` (Alto) | Válvula / LED del sector de riego. |
 | **Sector Oeste (W)** | `GPIOB`, `PIN_7` | `SET` (Alto) | Válvula / LED del sector de riego. |
 | **Buzzer** | `GPIOB`, `PIN_12` | `SET` (Alto) | Alarma sonora, se activa en `MODO_FALLA`. |
+| **LCD RS** | `GPIOC`, `PIN_4` | `N/A` | Selección de Registro del LCD. |
+| **LCD EN** | `GPIOC`, `PIN_5` | `N/A` | Enable del LCD. |
+| **LCD D4** | `GPIOC`, `PIN_6` | `N/A` | Bus de datos (4-bits). |
+| **LCD D5** | `GPIOC`, `PIN_7` | `N/A` | Bus de datos (4-bits). |
+| **LCD D6** | `GPIOC`, `PIN_8` | `N/A` | Bus de datos (4-bits). |
+| **LCD D7** | `GPIOC`, `PIN_9` | `N/A` | Bus de datos (4-bits). |
 
 ---
-**Nota sobre I2C y UART:** Adicionalmente, recordar que los pines I2C1 (para el display LCD y la memoria EEPROM) se configuran automáticamente en PB8 (SCL) y PB9 (SDA), y el USART2 (Bluetooth) en PA2 (TX) y PA3 (RX) según la topología default de Nucleo.
+**Nota sobre I2C y UART:** Adicionalmente, recordar que los pines I2C1 (ahora de uso exclusivo para la memoria EEPROM) se configuran automáticamente en PB8 (SCL) y PB9 (SDA), y el USART2 (Bluetooth) en PA2 (TX) y PA3 (RX) según la topología default de Nucleo.

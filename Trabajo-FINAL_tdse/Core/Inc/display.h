@@ -45,8 +45,7 @@ extern "C" {
 #include <stdbool.h>
 
 /********************** macros ***********************************************/
-/* LCD Address on I2C bus (PCF8574 default 0x27 shifted left by 1) */
-#define LCD_ADDR (0x27 << 1)
+/* LCD is connected via Parallel 4-bit GPIO (See board.h) */
 
 /********************** typedef **********************************************/
 

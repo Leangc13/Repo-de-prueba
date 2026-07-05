@@ -110,6 +110,28 @@ extern "C" {
 /* PA1 (A1) -> ADC1_IN1 (Wind Direction) */
 /* PA4 (A2) -> ADC1_IN4 (Light Sensor) */
 
+/* LCD 16x2 Parallel Pins (4-bit mode) */
+#define LCD_RS_PIN          GPIO_PIN_4
+#define LCD_RS_PORT         GPIOC
+#define LCD_EN_PIN          GPIO_PIN_5
+#define LCD_EN_PORT         GPIOC
+#define LCD_D4_PIN          GPIO_PIN_6
+#define LCD_D4_PORT         GPIOC
+#define LCD_D5_PIN          GPIO_PIN_7
+#define LCD_D5_PORT         GPIOC
+#define LCD_D6_PIN          GPIO_PIN_8
+#define LCD_D6_PORT         GPIOC
+#define LCD_D7_PIN          GPIO_PIN_9
+#define LCD_D7_PORT         GPIOC
+
+/* I2C1 (EEPROM AT24C02) mapped */
+/* PB8 -> I2C1_SCL (or PB6 depending on remap) */
+/* PB9 -> I2C1_SDA (or PB7 depending on remap) */
+
+/* USART2 (Bluetooth HM-10 / Logger) mapped */
+/* PA2 -> USART2_TX */
+/* PA3 -> USART2_RX */
+
 #endif
 
 /********************** typedef **********************************************/
