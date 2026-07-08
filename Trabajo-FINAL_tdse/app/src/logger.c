@@ -42,6 +42,7 @@
 #include "logger.h"
 #include "task_sensor_interface.h"
 #include "task_actuator_interface.h"
+#include "task_system_interface.h"
 
 /********************** macros and definitions *******************************/
 #define RX_BUFFER_SIZE  32
@@ -160,8 +161,26 @@ static void send_telemetry(void)
 	bool sE = get_actuator_sector_state(2);
 	bool sW = get_actuator_sector_state(3);
 	
-	sprintf((char*)tx_buffer, "WIND:%lu DIR:%lu ON:%d%d%d%d\r\n", 
-		    w_spd, w_dir, sN, sS, sE, sW);
+	/* Convert System Mode */
+	char* mode_str = "OFFLINE";
+	switch(get_system_mode()) {
+		case MODO_NORMAL: mode_str = "NORMAL"; break;
+		case MODO_SET_UP: mode_str = "SETUP"; break;
+		case MODO_FALLA:  mode_str = "FALLA"; break;
+	}
+
+	/* Convert Wind Direction */
+	char dir_char = '-';
+	switch(w_dir) {
+		case DIR_NORTH: dir_char = 'N'; break;
+		case DIR_SOUTH: dir_char = 'S'; break;
+		case DIR_EAST:  dir_char = 'E'; break;
+		case DIR_WEST:  dir_char = 'O'; break;
+	}
+
+	/* Format JSON payload for the Web App */
+	sprintf((char*)tx_buffer, "{\"m\":\"%s\", \"v\":%lu, \"d\":\"%c\", \"s\":[%d,%d,%d,%d]}\n", 
+		    mode_str, w_spd, dir_char, sN, sS, sE, sW);
 			
 	HAL_UART_Transmit_IT(&huart2, tx_buffer, strlen((char*)tx_buffer));
 }
