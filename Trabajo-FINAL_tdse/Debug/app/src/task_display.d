@@ -1,4 +1,4 @@
-Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
+app/src/task_display.o: ../app/src/task_display.c ../Core/Inc/main.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h \
  ../Core/Inc/stm32f1xx_hal_conf.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h \
@@ -25,7 +25,10 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_i2c.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h \
- ../app/inc/app.h
+ ../app/inc/board.h ../app/inc/app.h ../app/inc/task_display.h \
+ ../app/inc/display.h ../app/inc/eeprom.h ../app/inc/task_system.h \
+ ../app/inc/task_system_interface.h ../app/inc/task_system.h \
+ ../app/inc/task_sensor_interface.h ../app/inc/task_actuator_interface.h
 ../Core/Inc/main.h:
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:
 ../Core/Inc/stm32f1xx_hal_conf.h:
@@ -53,4 +56,13 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_i2c.h:
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h:
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h:
+../app/inc/board.h:
 ../app/inc/app.h:
+../app/inc/task_display.h:
+../app/inc/display.h:
+../app/inc/eeprom.h:
+../app/inc/task_system.h:
+../app/inc/task_system_interface.h:
+../app/inc/task_system.h:
+../app/inc/task_sensor_interface.h:
+../app/inc/task_actuator_interface.h:
