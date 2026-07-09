@@ -114,6 +114,9 @@ void task_sensor_init(void *parameters)
 	{
 		sensor_adc_error = true;
 	}
+	/* Deshabilitar la interrupción del DMA para evitar la tormenta de interrupciones (CPU Lockup) */
+	HAL_NVIC_DisableIRQ(DMA1_Channel1_IRQn);
+
 
 	/* Initialize Buttons data */
 	buttons[0].port = BTN_ENTER_PORT;

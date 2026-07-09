@@ -69,7 +69,7 @@ static void send_telemetry(void);
 /********************** external data declaration ****************************/
 
 /********************** external functions definition ************************/
-void logger_init(void)
+void logger_init(void *parameters)
 {
 	rx_index = 0;
 	msg_received = false;
@@ -79,7 +79,7 @@ void logger_init(void)
 	HAL_UART_Receive_IT(&huart2, &rx_char, 1);
 }
 
-void logger_update(void)
+void logger_update(void *parameters)
 {
 	/* Parse incoming message if any */
 	if (msg_received)

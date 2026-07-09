@@ -41,6 +41,7 @@ extern "C" {
 #endif
 
 /********************** inclusions *******************************************/
+#include "main.h"
 
 /********************** macros ***********************************************/
 #define NUCLEO_F103RB		(0)
@@ -49,80 +50,76 @@ extern "C" {
 /* SRAGV Board Definitions mapped to standard NUCLEO-F103RB */
 #if (BOARD == NUCLEO_F103RB)
 
+
 /* Inputs: Buttons (Active Low - internal pull-up assumed) */
-#define BTN_UP_PIN			GPIO_PIN_0
-#define BTN_UP_PORT			GPIOB
-#define BTN_UP_PRESSED		GPIO_PIN_RESET
-#define BTN_UP_HOVER		GPIO_PIN_SET
+#define BTN_UP_PIN          BTN1_Pin
+#define BTN_UP_PORT         BTN1_GPIO_Port
+#define BTN_UP_PRESSED      GPIO_PIN_RESET
+#define BTN_UP_HOVER        GPIO_PIN_SET
 
-#define BTN_DOWN_PIN		GPIO_PIN_1
-#define BTN_DOWN_PORT		GPIOB
-#define BTN_DOWN_PRESSED	GPIO_PIN_RESET
-#define BTN_DOWN_HOVER		GPIO_PIN_SET
+#define BTN_DOWN_PIN        BTN2_Pin
+#define BTN_DOWN_PORT       BTN2_GPIO_Port
+#define BTN_DOWN_PRESSED    GPIO_PIN_RESET
+#define BTN_DOWN_HOVER      GPIO_PIN_SET
 
-#define BTN_ENTER_PIN		GPIO_PIN_2
-#define BTN_ENTER_PORT		GPIOB
-#define BTN_ENTER_PRESSED	GPIO_PIN_RESET
-#define BTN_ENTER_HOVER		GPIO_PIN_SET
+#define BTN_ENTER_PIN       BTN3_Pin
+#define BTN_ENTER_PORT      BTN3_GPIO_Port
+#define BTN_ENTER_PRESSED   GPIO_PIN_RESET
+#define BTN_ENTER_HOVER     GPIO_PIN_SET
 
 /* Inputs: DIP Switches */
-#define DIP1_PIN			GPIO_PIN_0
-#define DIP1_PORT			GPIOC
-#define DIP2_PIN			GPIO_PIN_1
-#define DIP2_PORT			GPIOC
-#define DIP3_PIN			GPIO_PIN_2
-#define DIP3_PORT			GPIOC
-#define DIP4_PIN			GPIO_PIN_3
-#define DIP4_PORT			GPIOC
-#define DIP_ON				GPIO_PIN_RESET
-#define DIP_OFF				GPIO_PIN_SET
+#define DIP1_PIN            BTN1_DIP_Pin
+#define DIP1_PORT           BTN1_DIP_GPIO_Port
+#define DIP2_PIN            BTN2_DIP_Pin
+#define DIP2_PORT           BTN2_DIP_GPIO_Port
+#define DIP3_PIN            BTN3_DIP_Pin
+#define DIP3_PORT           BTN3_DIP_GPIO_Port
+#define DIP4_PIN            BTN4_DIP_Pin
+#define DIP4_PORT           BTN4_DIP_GPIO_Port
+#define DIP_ON              GPIO_PIN_RESET
+#define DIP_OFF             GPIO_PIN_SET
 
 /* Outputs: Status LEDs (Active High) */
-#define LED_PWR_PIN			GPIO_PIN_5 /* PA5 is built-in LD2 */
-#define LED_PWR_PORT		GPIOA
-#define LED_RUN_PIN			GPIO_PIN_10
-#define LED_RUN_PORT		GPIOB
-#define LED_ALERTA_PIN		GPIO_PIN_11
-#define LED_ALERTA_PORT		GPIOB
-#define LED_ON				GPIO_PIN_SET
-#define LED_OFF				GPIO_PIN_RESET
+#define LED_PWR_PIN         LED1_Pin
+#define LED_PWR_PORT        LED1_GPIO_Port
+#define LED_RUN_PIN         LED2_Pin
+#define LED_RUN_PORT        LED2_GPIO_Port
+#define LED_ALERTA_PIN      LED3_Pin
+#define LED_ALERTA_PORT     LED3_GPIO_Port
+#define LED_ON              GPIO_PIN_SET
+#define LED_OFF             GPIO_PIN_RESET
 
 /* Outputs: Sector LEDs (Active High) */
-#define SECT_N_PIN			GPIO_PIN_6
-#define SECT_N_PORT			GPIOA
-#define SECT_S_PIN			GPIO_PIN_7
-#define SECT_S_PORT			GPIOA
-#define SECT_E_PIN			GPIO_PIN_6
-#define SECT_E_PORT			GPIOB
-#define SECT_W_PIN			GPIO_PIN_7
-#define SECT_W_PORT			GPIOB
-#define SECT_ON				GPIO_PIN_SET
-#define SECT_OFF			GPIO_PIN_RESET
+#define SECT_N_PIN          LEDN_Pin
+#define SECT_N_PORT         LEDN_GPIO_Port
+#define SECT_S_PIN          LEDS_Pin
+#define SECT_S_PORT         LEDS_GPIO_Port
+#define SECT_E_PIN          LEDE_Pin
+#define SECT_E_PORT         LEDE_GPIO_Port
+#define SECT_W_PIN          LEDW_Pin
+#define SECT_W_PORT         LEDW_GPIO_Port
+#define SECT_ON             GPIO_PIN_SET
+#define SECT_OFF            GPIO_PIN_RESET
 
 /* Outputs: Buzzer (Active High) */
-#define BUZZER_PIN			GPIO_PIN_12
-#define BUZZER_PORT			GPIOB
-#define BUZZER_ON			GPIO_PIN_SET
-#define BUZZER_OFF			GPIO_PIN_RESET
-
-/* ADC Channels for Wind and Light mapped */
-/* PA0 (A0) -> ADC1_IN0 (Wind Speed) */
-/* PA1 (A1) -> ADC1_IN1 (Wind Direction) */
-/* PA4 (A2) -> ADC1_IN4 (Light Sensor) */
+#define BUZZER_PIN          BUZZ_Pin
+#define BUZZER_PORT         BUZZ_GPIO_Port
+#define BUZZER_ON           GPIO_PIN_SET
+#define BUZZER_OFF          GPIO_PIN_RESET
 
 /* LCD 16x2 Parallel Pins (4-bit mode) */
-#define LCD_RS_PIN          GPIO_PIN_4
-#define LCD_RS_PORT         GPIOC
-#define LCD_EN_PIN          GPIO_PIN_5
-#define LCD_EN_PORT         GPIOC
-#define LCD_D4_PIN          GPIO_PIN_6
-#define LCD_D4_PORT         GPIOC
-#define LCD_D5_PIN          GPIO_PIN_7
-#define LCD_D5_PORT         GPIOC
-#define LCD_D6_PIN          GPIO_PIN_8
-#define LCD_D6_PORT         GPIOC
-#define LCD_D7_PIN          GPIO_PIN_9
-#define LCD_D7_PORT         GPIOC
+#define LCD_RS_PIN          LCDRS_Pin
+#define LCD_RS_PORT         LCDRS_GPIO_Port
+#define LCD_EN_PIN          LCDEN_Pin
+#define LCD_EN_PORT         LCDEN_GPIO_Port
+#define LCD_D4_PIN          LCDD4_Pin
+#define LCD_D4_PORT         LCDD4_GPIO_Port
+#define LCD_D5_PIN          LCDD5_Pin
+#define LCD_D5_PORT         LCDD5_GPIO_Port
+#define LCD_D6_PIN          LCDD6_Pin
+#define LCD_D6_PORT         LCDD6_GPIO_Port
+#define LCD_D7_PIN          LCDD7_Pin
+#define LCD_D7_PORT         LCDD7_GPIO_Port
 
 /* I2C1 (EEPROM AT24C02) mapped */
 /* PB8 -> I2C1_SCL (or PB6 depending on remap) */

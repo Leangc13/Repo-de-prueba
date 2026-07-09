@@ -51,8 +51,8 @@ extern "C" {
 /********************** external data declaration ****************************/
 
 /********************** external functions declaration ***********************/
-void logger_init(void);
-void logger_update(void);
+void logger_init(void *parameters);
+void logger_update(void *parameters);
 void logger_uart_rx_callback(void);
 
 /********************** End of CPP guard *************************************/
