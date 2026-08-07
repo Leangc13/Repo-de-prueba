@@ -26,13 +26,10 @@
   - [3.1 Arquitectura de Hardware](#31-arquitectura-de-hardware)
   - [3.2 Diseño de Firmware (Máquinas de Estado)](#32-diseño-de-firmware-máquinas-de-estado)
   - [3.3 Esquema Eléctrico y Vistas de Cableado](#33-esquema-eléctrico-y-vistas-de-cableado)
-  - [3.4 Asignación de Memoria (Build Analyzer)](#34-asignación-de-memoria-build-analyzer)
   - [3.5 Aplicación Web](#35-aplicación-web)
 - [Capítulo 4: Ensayos y resultados](#capítulo-4-ensayos-y-resultados)
   - [4.1 Pruebas de integración Hardware-Software](#41-pruebas-de-integración-hardware-software)
   - [4.2 Pruebas de campo simuladas](#42-pruebas-de-campo-simuladas)
-  - [4.3 Tiempos de Ejecución (WCET) y Factor de Uso (U)](#43-tiempos-de-ejecución-wcet-y-factor-de-uso-u)
-  - [4.4 Medición y Análisis de Consumo Eléctrico](#44-medición-y-análisis-de-consumo-eléctrico)
 - [Capítulo 5: Conclusiones](#capítulo-5-conclusiones)
 - [Capítulo 6: Uso de herramientas de IA](#capítulo-6-uso-de-herramientas-de-ia)
 - [Capítulo 7: Bibliografía y referencias](#capítulo-7-bibliografía-y-referencias)
@@ -168,17 +165,6 @@ Para documentar las conexiones físicas entre los componentes, se elaboró un di
 > [!NOTE]
 > **Aclaración sobre la representación visual:** Los componentes mostrados en la Figura 3.5 (específicamente los valores de las resistencias, colores de ciertos encapsulados y modelos exactos de módulos) constituyen una representación visual para ilustrar el esquema de interconexión (pines y cableado). Algunos valores y componentes puntuales pueden diferir ligeramente de los utilizados en el ensamble de la placa física real documentada en las Figuras 1, 2 y 3.
 
-### 3.4 Asignación de Memoria (Build Analyzer)
-Luego de compilar la versión definitiva en el IDE (STM32CubeIDE), se obtuvieron los siguientes resultados de ocupación de memoria:
-
-**Secciones (en bytes):**
-- **text:** `[COMPLETAR]` bytes
-- **data:** `[COMPLETAR]` bytes
-- **bss:** `[COMPLETAR]` bytes
-
-**Regiones (en bytes y porcentaje):**
-- **FLASH:** `[COMPLETAR]` bytes ocupados de `128 KB` (`[COMPLETAR]%`)
-- **RAM:** `[COMPLETAR]` bytes ocupados de `20 KB` (`[COMPLETAR]%`)
 
 ### 3.5 Aplicación Web
 Como complemento a la interfaz física (LCD y botones), se desarrolló una **Web App** interactiva. El usuario puede conectarse a la placa a través de Bluetooth directamente desde su navegador web para disponer de un panel de control y monitoreo en tiempo real. La aplicación se encuentra alojada y disponible para su uso en el siguiente enlace: **[SRAGV - Monitoreo Bluetooth](https://leangc13.github.io/SRAGV-APP/)**.
@@ -214,42 +200,12 @@ Desde esta interfaz, el usuario puede:
 ### 4.2 Pruebas de campo simuladas
 Se validó la transición entre estados. Al someter el sistema (moviendo el joystick al extremo) a condiciones superiores al umbral configurado (viento crítico), la pantalla LCD reacciona inmediatamente reflejando `SYSTEM FAULT!` y el LED de alerta parpadea a 1Hz, cumpliendo con la especificación de seguridad del producto.
 
-### 4.3 Tiempos de Ejecución (WCET) y Factor de Uso (U)
-Mediante instrumentación de pines (`HAL_GPIO_TogglePin`) y visualización en osciloscopio / analizador lógico, se determinó el **Worst-Case Execution Time (WCET)** de cada tarea.
-
-| Tarea | WCET (ms) | Frecuencia de Ejecución (Hz) |
-| --- | --- | --- |
-| `task_system` | `[COMPLETAR]` | `[COMPLETAR]` |
-| `task_sensor` | `[COMPLETAR]` | `[COMPLETAR]` |
-| `task_actuator` | `[COMPLETAR]` | `[COMPLETAR]` |
-| `task_display` | `[COMPLETAR]` | `[COMPLETAR]` |
-
-**Cálculo del Factor de Uso (U) de la CPU:**
-\[ U = \sum \frac{C_i}{T_i} = [COMPLETAR]\% \]
-
-### 4.4 Medición y Análisis de Consumo Eléctrico
-Se utilizó un miliamperímetro para cuantificar el consumo de los rieles de 3.3V y 5V de la placa Nucleo bajo distintas condiciones:
-
-| Condición de operación | Consumo 3.3V (mA) | Consumo 5V (mA) |
-| --- | --- | --- |
-| Operación Normal (Sensores activos) | `[COMPLETAR]` | `[COMPLETAR]` |
-| Modo Falla (Alarma activa) | `[COMPLETAR]` | `[COMPLETAR]` |
-| Modo Bajo Consumo (Sleep/Stop) | `[COMPLETAR]` | `[COMPLETAR]` |
-*(Nota: Si no implementaste un modo de bajo consumo real en el código, aclara aquí que no aplica para esta versión, o mide el consumo base con el sistema inactivo).*
-
 ---
 
 ## Capítulo 5: Conclusiones
 El proyecto SRAGV demuestra la viabilidad de utilizar variables climáticas, particularmente el viento, para realizar ajustes granulares en sistemas de irrigación. La adición de dos lógicas diferentes (Inhibición Inversa y Directa) le otorga una flexibilidad arquitectónica superior a las alternativas comerciales simples, previniendo daños estructurales en edificios colindantes y optimizando el agua. El desarrollo permitió consolidar conocimientos sobre sistemas embebidos mediante el uso de ADC por DMA, comunicación I2C (EEPROM y LCD), UART (Bluetooth), anti-rebotes y máquinas de estado no bloqueantes.
 
 ---
-
-## Capítulo 6: Uso de herramientas de IA
-Durante el desarrollo del código en C y el diagnóstico de hardware, se emplearon herramientas de Inteligencia Artificial para:
-- Mapear la lectura cruda del ADC del joystick a porcentajes escalados de viento y convertirlos lógicamente en direcciones cardinales.
-- Diagnosticar problemas físicos de cableado, identificación de pines flotantes en DIP switches y troubleshooting en la polaridad de los LEDs.
-- Refactorizar las máquinas de estado del sistema en tareas desacopladas (`task_sensor`, `task_system`, `task_actuator`, `task_display`).
-
 ---
 
 ## Capítulo 7: Bibliografía y referencias
