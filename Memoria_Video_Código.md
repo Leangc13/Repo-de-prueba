@@ -193,7 +193,7 @@ A continuación se describen los principales componentes de hardware, módulos p
 
 #### 2.3.1 STM32 NUCLEO-F103RB
 
-La placa de desarrollo NUCLEO-F103RB, ilustrada en la Figura 2.1, es la unidad de procesamiento central del sistema. Incorpora un microcontrolador STM32F103RB basado en la arquitectura ARM Cortex-M3, con 128 KB de memoria Flash y 20 KB de SRAM. Fue seleccionada por su amplia disponibilidad de periféricos (ADC multicanal con soporte DMA, I²C, UART y GPIO), su compatibilidad con el entorno de desarrollo STM32CubeIDE y el acceso a los conectores de extensión tipo Arduino y Morpho que simplifican el cableado del prototipo.
+La placa de desarrollo NUCLEO-F103RB, ilustrada en la Figura 2.1, es la unidad de procesamiento central del sistema.
 
 <div align="center">
 <p><em><img width="596" height="335" alt="STM32" src="https://github.com/user-attachments/assets/2fe6122d-9474-4260-bb42-d9273f665efd" />
