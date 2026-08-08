@@ -196,8 +196,8 @@ A continuación se describen los principales componentes de hardware, módulos p
 La placa de desarrollo NUCLEO-F103RB, ilustrada en la Figura 2.1, es la unidad de procesamiento central del sistema. Incorpora un microcontrolador STM32F103RB basado en la arquitectura ARM Cortex-M3, con 128 KB de memoria Flash y 20 KB de SRAM. Fue seleccionada por su amplia disponibilidad de periféricos (ADC multicanal con soporte DMA, I²C, UART y GPIO), su compatibilidad con el entorno de desarrollo STM32CubeIDE y el acceso a los conectores de extensión tipo Arduino y Morpho que simplifican el cableado del prototipo.
 
 <div align="center">
-<p><em>[<img width="596" height="335" alt="STM32" src="https://github.com/user-attachments/assets/2fe6122d-9474-4260-bb42-d9273f665efd" />
-]</em></p>
+<p><em><img width="596" height="335" alt="STM32" src="https://github.com/user-attachments/assets/2fe6122d-9474-4260-bb42-d9273f665efd" />
+</em></p>
 <p><em>Figura 2.1: Placa de desarrollo STM32 NUCLEO-F103RB.</em></p>
 </div>
 
@@ -206,8 +206,8 @@ La placa de desarrollo NUCLEO-F103RB, ilustrada en la Figura 2.1, es la unidad d
 El joystick analógico, mostrado en la Figura 2.2, fue utilizado como sensor de emulación del viento. El eje X representa la velocidad del viento mediante la desviación de la palanca desde el centro, y el eje Y determina la dirección dominante (Norte, Sur, Este u Oeste) según cuál de los dos ejes presente mayor deflexión. Las lecturas de ambos ejes se digitalizan mediante ADC con transferencia por DMA y se filtran con un promediado simple para reducir el ruido eléctrico.
 
 <div align="center">
-<p><em>[<img width="554" height="554" alt="joystick_arduino" src="https://github.com/user-attachments/assets/78631d90-e9d3-4921-a80b-71b2410b744e" />
-]</em></p>
+<p><em><img width="554" height="554" alt="joystick_arduino" src="https://github.com/user-attachments/assets/78631d90-e9d3-4921-a80b-71b2410b744e" />
+</em></p>
 <p><em>Figura 2.2: Joystick analógico utilizado para la emulación del viento.</em></p>
 </div>
 
@@ -216,8 +216,8 @@ El joystick analógico, mostrado en la Figura 2.2, fue utilizado como sensor de 
 El display LCD 16×2, ilustrado en la Figura 2.3, constituye la interfaz visual principal del sistema. Se conecta al microcontrolador mediante la interfaz paralela en modo 4 bits, utilizando los pines de datos, habilitación y selección de registro del microcontrolador. El display muestra el modo actual del sistema, las lecturas de velocidad y dirección del viento, el estado de los sectores de riego y los menús de configuración en el Modo SET_UP.
 
 <div align="center">
-<p><em>[<img width="392" height="510" alt="display_lcd" src="https://github.com/user-attachments/assets/35dfb92f-8abb-4073-ae99-49bdd879ad65" />
-]</em></p>
+<p><em><img width="392" height="510" alt="display_lcd" src="https://github.com/user-attachments/assets/35dfb92f-8abb-4073-ae99-49bdd879ad65" />
+</em></p>
 <p><em>Figura 2.3: Display LCD 16×2 con interfaz paralela en modo 4 bits.</em></p>
 </div>
 
@@ -226,8 +226,8 @@ El display LCD 16×2, ilustrado en la Figura 2.3, constituye la interfaz visual 
 El módulo HM-10, mostrado en la Figura 2.4, proporciona conectividad inalámbrica BLE (*Bluetooth Low Energy*) entre el prototipo y la aplicación web de monitoreo. La comunicación con el microcontrolador se realiza mediante el periférico UART, utilizando un protocolo de comandos ASCII simple. A través de este módulo, la aplicación puede recibir el estado del sistema en tiempo real y enviar nuevos parámetros de configuración.
 
 <div align="center">
-<p><em>[<img width="554" height="554" alt="modulo_bluetooth" src="https://github.com/user-attachments/assets/f42934c5-417d-4320-9ae3-df4ee477a9fc" />
-]</em></p>
+<p><em><img width="554" height="554" alt="modulo_bluetooth" src="https://github.com/user-attachments/assets/f42934c5-417d-4320-9ae3-df4ee477a9fc" />
+</em></p>
 <p><em>Figura 2.4: Módulo Bluetooth HM-10.</em></p>
 </div>
 
@@ -236,8 +236,8 @@ El módulo HM-10, mostrado en la Figura 2.4, proporciona conectividad inalámbri
 La EEPROM AT24C02, ilustrada en la Figura 2.5, es una memoria no volátil que se comunica por el bus I²C compartido con el LCD. Su función es persistir la configuración del usuario (umbrales de viento moderado y crítico, sectores habilitados, duración del ciclo de riego y preferencia de riego diurno/nocturno) ante cortes de alimentación. Al iniciar el sistema, se lee la configuración almacenada y se verifica su integridad mediante un *checksum*; si los datos son inválidos, se cargan valores por defecto.
 
 <div align="center">
-<p><em>[<img width="447" height="447" alt="EEPROM" src="https://github.com/user-attachments/assets/7f65d325-50f8-417d-82ff-f6dc70902f2a" />
-]</em></p>
+<p><em><img width="447" height="447" alt="EEPROM" src="https://github.com/user-attachments/assets/7f65d325-50f8-417d-82ff-f6dc70902f2a" />
+</em></p>
 <p><em>Figura 2.5: Módulo de memoria EEPROM AT24C02.</em></p>
 </div>
 
@@ -246,8 +246,8 @@ La EEPROM AT24C02, ilustrada en la Figura 2.5, es una memoria no volátil que se
   El modulo LDR, mostrada en la Figura 2.6. Se utilizo para que, de acuerdo con la configuración del usuario, puede habilitar o inhibir el riego nocturno. 
 
 <div align="center">
-<p><em>[<img width="392" height="510" alt="LDR" src="https://github.com/user-attachments/assets/24c8a7ae-b349-4a29-899d-93a8593d17b8" />
-]</em></p>
+<p><em><img width="392" height="510" alt="LDR" src="https://github.com/user-attachments/assets/24c8a7ae-b349-4a29-899d-93a8593d17b8" />
+</em></p>
 <p><em>Figura 2.6: Fotorresistencia LDR para detección de luz diurna/nocturna.</em></p>
 </div>
 
@@ -256,8 +256,8 @@ La EEPROM AT24C02, ilustrada en la Figura 2.5, es una memoria no volátil que se
 Los cuatro LEDs de sector, ilustrados en la Figura 2.7, representan visualmente el estado de las zonas de riego Norte, Sur, Este y Oeste. Cuando un LED está encendido, indica que el sector correspondiente se encuentra activo; cuando está apagado, el sector está inhibido ya sea por viento, por DIP *switch* manual o por el Modo FALLA.
 
 <div align="center">
-<p><em>[<img width="554" height="554" alt="LEDs" src="https://github.com/user-attachments/assets/291cfa54-1b61-4079-9dff-37f854c85b46" />
-]</em></p>
+<p><em><img width="554" height="554" alt="LEDs" src="https://github.com/user-attachments/assets/291cfa54-1b61-4079-9dff-37f854c85b46" />
+</em></p>
 <p><em>Figura 2.7: LEDs de sector (Norte, Sur, Este y Oeste).</em></p>
 </div>
 
@@ -266,8 +266,8 @@ Los cuatro LEDs de sector, ilustrados en la Figura 2.7, representan visualmente 
 El sistema cuenta con dos LEDs de estado, mostrados en la Figura 2.8: el LED RUN (verde), que indica que el sistema está activo y operando con normalidad, y el LED ALERTA (rojo), que se activa y parpadea a 1 Hz durante el Modo FALLA para señalizar una condición de emergencia.
 
 <div align="center">
-<p><em>[<img width="240" height="210" alt="led_Estado" src="https://github.com/user-attachments/assets/181ac223-1cd6-4572-ad28-4eebb0c8a421" />
-]</em></p>
+<p><em><img width="240" height="210" alt="led_Estado" src="https://github.com/user-attachments/assets/181ac223-1cd6-4572-ad28-4eebb0c8a421" />
+</em></p>
 <p><em>Figura 2.8: LEDs de estado RUN y ALERTA.</em></p>
 </div>
 
@@ -275,8 +275,8 @@ El sistema cuenta con dos LEDs de estado, mostrados en la Figura 2.8: el LED RUN
 
 El buzzer, ilustrado en la Figura 2.9, proporciona retroalimentación sonora al usuario cuando se encuentra en modo FALLA.
 <div align="center">
-<p><em>[<img width="225" height="225" alt="buzzer" src="https://github.com/user-attachments/assets/0105794c-981d-4769-babe-3baea2fc975e" />
-]</em></p>
+<p><em><img width="225" height="225" alt="buzzer" src="https://github.com/user-attachments/assets/0105794c-981d-4769-babe-3baea2fc975e" />
+</em></p>
 <p><em>Figura 2.9: Buzzer para señales sonoras de confirmación y falla.</em></p>
 </div>
 
@@ -285,8 +285,8 @@ El buzzer, ilustrado en la Figura 2.9, proporciona retroalimentación sonora al 
 El módulo de DIP *switches* de 4 posiciones, mostrado en la Figura 2.10, permite inhabilitar manualmente cualquier sector de riego de forma independiente a la lógica automática de viento. Cada posición corresponde a un sector (Norte, Sur, Este, Oeste); en posición abierta, el sector queda forzado a apagado sin importar las condiciones del viento.
 
 <div align="center">
-<p><em>[<img width="464" height="580" alt="DIP" src="https://github.com/user-attachments/assets/1ca6bb03-4e23-4550-a13c-727b189bf032" />
-]</em></p>
+<p><em><img width="464" height="580" alt="DIP" src="https://github.com/user-attachments/assets/1ca6bb03-4e23-4550-a13c-727b189bf032" />
+</em></p>
 <p><em>Figura 2.10: Módulo de DIP switches para inhibición manual de sectores.</em></p>
 </div>
 
@@ -295,8 +295,8 @@ El módulo de DIP *switches* de 4 posiciones, mostrado en la Figura 2.10, permit
 Los tres pulsadores, ilustrados en la Figura 2.11, permiten la navegación del menú interactivo en el Modo SET_UP. El botón UP avanza entre las opciones del menú o incrementa un valor, el botón DOWN retrocede o decrementa, y el botón ENTER confirma la selección. Todos los pulsadores cuentan con antirrebote implementado por software de forma no bloqueante.
 
 <div align="center">
-<p><em>[<img width="447" height="447" alt="pulsadores" src="https://github.com/user-attachments/assets/5f673cbc-01c4-4d94-97d7-094db832f26c" />
-]</em></p>
+<p><em><img width="447" height="447" alt="pulsadores" src="https://github.com/user-attachments/assets/5f673cbc-01c4-4d94-97d7-094db832f26c" />
+</em></p>
 <p><em>Figura 2.11: Pulsadores de navegación del menú (UP, DOWN, ENTER).</em></p>
 </div>
 
