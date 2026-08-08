@@ -437,7 +437,7 @@ Durante el desarrollo del proyecto, se recurrió a herramientas de inteligencia 
 
 Desarrollo de la aplicación web: la *web app* de monitoreo y control remoto fue desarrollada con asistencia de herramientas de IA, tanto para la estructura del código JavaScript como para el diseño de la interfaz de usuario y la lógica de comunicación por Bluetooth.
 
-Resolución de problemas de código: durante la integración de los distintos módulos de hardware, surgieron inconvenientes relacionados con la sincronización del ADC por DMA, el manejo del bus I²C y el antirrebote de los pulsadores. Las herramientas de IA se utilizaron para diagnosticar los errores e interpretar los mensajes del compilador, y las soluciones propuestas fueron evaluadas y adaptadas por el equipo antes de su incorporación al proyecto.
+Resolución de problemas de código: durante la integración de los distintos módulos de hardware, surgieron inconvenientes relacionados con la sincronización del ADC por DMA, el manejo del bus I²C. Las herramientas de IA se utilizaron para diagnosticar los errores e interpretar los mensajes del compilador, y las soluciones propuestas fueron evaluadas y adaptadas por el equipo antes de su incorporación al proyecto.
 
 ---
 
