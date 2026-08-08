@@ -31,8 +31,7 @@
   - [4.1 Pruebas de integración Hardware-Software](#41-pruebas-de-integración-hardware-software)
   - [4.2 Pruebas de campo simuladas](#42-pruebas-de-campo-simuladas)
 - [Capítulo 5: Conclusiones](#capítulo-5-conclusiones)
-- [Capítulo 6: Uso de herramientas de IA](#capítulo-6-uso-de-herramientas-de-ia)
-- [Capítulo 7: Bibliografía y referencias](#capítulo-7-bibliografía-y-referencias)
+- [Capítulo 6: Bibliografía y referencias](#capítulo-7-bibliografía-y-referencias)
 
 ---
 
