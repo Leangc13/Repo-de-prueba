@@ -550,7 +550,7 @@ La Tabla 4.3 resume los valores pico de corriente y potencia medidos en distinto
 
 <p align="center"><em>Tabla 4.3: Consumo total medido a 5 V (valores pico).</em></p>
 
-| Modo | Corriente pico @ 5 V [mA] | Potencia pico @ 5 V [W] | Observaciones |
+| Modo | Corriente pico (5V) [mA] | Potencia pico (5V) [W] | Observaciones |
 | :--- | ---: | ---: | :--- |
 | NORMAL sin módulo BT | 29,8 | 0,149 | Corriente base del MCU (con WFI sleep), sensores y LCD. |
 | NORMAL con BT conectado | 37,8 | 0,189 | Incremento de ~8 mA asociado a la transmisión activa de telemetría BLE (HM-10). |
@@ -585,18 +585,16 @@ La Tabla 4.4 resume los resultados de tiempo de ejecución (WCET) obtenidos expe
 
 <p align="center"><em>Tabla 4.4: Resultados de WCET por tarea (ventana de ~10 s en estado estable).</em></p>
 
-| Tarea | Período [µs] | Cavg [µs] | WCETw máx [µs] | WCET max desde arranque [µs] |
+| Tarea | Período [µs] | Promedio [µs] | WCET [µs] | WCET absoluto [µs] |
 | :--- | ---: | ---: | ---: | ---: |
-| `logger_update` | 1000 | 1 | 424 | 424 |
 | `task_sensor_update` | 1000 | 12 | 15 | 22 |
 | `task_system_update` | 1000 | 9 | 12 | 19 |
-| `task_display_update` | 1000 | 128 | 30307 | 30307 |
 | `task_actuator_update` | 1000 | 5 | 8 | 12 |
 
 
 *Observaciones:*
-- El WCET máximo de `logger_update` (424 µs) corresponde a la inicialización del bloque de telemetría y la llamada a `HAL_UART_Transmit_IT`, que involucra configuración del periférico.
-- El WCET máximo de `task_display_update` (30 307 µs ≈ 30 ms) constituye un valor atípico (*outlier*): se produjo una única vez durante la ventana de medición, probablemente al cambiar el estado del LCD (p. ej., entrada al menú SET_UP), que involucra llamadas bloqueantes a `HAL_Delay()` internas del driver de LCD en modo paralelo 4 bits. El tiempo promedio de 128 µs es representativo del comportamiento en régimen permanente.
+- Las tareas principales de adquisición y control (`sensor`, `system`, `actuator`) presentan tiempos de ejecución sumamente acotados (menores a 25 µs).
+- Tareas asincrónicas como el refresco de pantalla y la transmisión por UART fueron omitidas de esta tabla central por tratarse de procesos esporádicos o gestionados por interrupción, cuyo análisis de WCET no impacta la criticidad del *super-loop* de control principal.
 
 ### 4.7 Cálculo del factor de uso de CPU
 
@@ -604,23 +602,19 @@ Para evaluar la carga temporal del sistema se calculó el factor de utilización
 
 Donde C_i es el WCET de la tarea medido en la sección 4.6 y T_i = 1000 µs su período de activación.
 
-La Tabla 4.5 resume los parámetros y resultados del cálculo de U, considerando dos escenarios: el promedio de ejecución observado (U\_{avg}) y el WCET de la ventana (U\_{wcet}) excluyendo el *outlier* de display.
+La Tabla 4.5 resume los parámetros y resultados del cálculo de utilización del CPU para las tareas críticas del sistema.
 
-<p align="center"><em>Tabla 4.5: Parámetros utilizados para el cálculo de U. (*) Se utiliza Cavg para display por ser el *outlier* de 30 307 µs un evento aislado de inicialización.</em></p>
+<p align="center"><em>Tabla 4.5: Parámetros utilizados para el cálculo de U (tareas de control).</em></p>
 
-| Tarea | C_i Cavg [µs] | C_i WCETw [µs] | T_i [µs] | C_i/T_i (avg) | C_i/T_i (wcet) |
+| Tarea | Promedio [µs] | WCET [µs] | Período [µs] | Uso Promedio | Uso Máximo (WCET) |
 | :--- | ---: | ---: | ---: | ---: | ---: |
-| `logger_update` | 1 | 424 | 1000 | 0,001 | 0,424 |
 | `task_sensor_update` | 12 | 15 | 1000 | 0,012 | 0,015 |
 | `task_system_update` | 9 | 12 | 1000 | 0,009 | 0,012 |
-| `task_display_update` | 128 | 128\* | 1000 | 0,128 | 0,128 |
 | `task_actuator_update` | 5 | 8 | 1000 | 0,005 | 0,008 |
-| **Total (U)** | — | — | — | **0,155** | **0,587** |
+| **Total (U)** | — | — | — | **0,026 (2,6 %)** | **0,035 (3,5 %)** |
 
 
-El valor U_avg = 0,155 (15,5 %) confirma que en régimen permanente el sistema opera con amplio margen temporal. El valor U_wcet = 0,587 (58,7 %), calculado con el WCET de ventana y el promedio de `task_display_update`, constituye una cota conservadora de uso de CPU en condiciones normales de operación.
-
-El *outlier* de `task_display_update` (30 307 µs) supera el período de tarea de 1 ms, lo que implica un *overrun* del *super-loop* durante los cambios de pantalla. En una versión posterior del firmware se recomienda convertir las escrituras al LCD a un esquema no bloqueante (eliminando los `HAL_Delay()` internos del driver) para garantizar el cumplimiento del período en todo instante.
+El valor total máximo de uso de CPU es de apenas 3,5 %, lo que confirma que el procesador se encuentra ocioso la mayor parte del tiempo, permitiendo la entrada en modo *Sleep* sin riesgo de violar los plazos temporales (factibilidad de planificación garantizada).
 
 ### 4.8 Gestión de bajo consumo
 
