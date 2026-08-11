@@ -550,7 +550,7 @@ La Tabla 4.3 resume los valores pico de corriente y potencia medidos en distinto
 
 <p align="center"><em>Tabla 4.3: Consumo total medido a 5 V (valores pico).</em></p>
 
-| Modo | $I_{pico}$ @ 5 V [mA] | $P_{pico}$ @ 5 V [W] | Observaciones |
+| Modo | Corriente pico @ 5 V [mA] | Potencia pico @ 5 V [W] | Observaciones |
 | :--- | ---: | ---: | :--- |
 | NORMAL sin módulo BT | 29,8 | 0,149 | Corriente base del MCU (con WFI sleep), sensores y LCD. |
 | NORMAL con BT conectado | 37,8 | 0,189 | Incremento de ~8 mA asociado a la transmisión activa de telemetría BLE (HM-10). |
@@ -581,24 +581,11 @@ Ambas memorias cuentan con amplio margen disponible (más del 75 % libre). Esto 
 
 ### 4.6 Medición y análisis de WCET por tarea
 
-El firmware instrumenta el WCET por tarea en `app.c` utilizando el contador de ciclos de hardware `DWT->CYCCNT` del Cortex-M3. El contador opera a 72 MHz (resolución de ~13,9 ns por ciclo). Cada 10 segundos se imprime por USART1 una línea con el siguiente formato:
-
-```
-[PROF] n=<iters> | logger:avg=<us>,win=<us>,max=<us> | sensor:... | system:... | display:... | actuator:... | CPU:avg=<%>,wcet=<%>
-```
-
-Donde:
-- `n`: cantidad de ciclos del *super-loop* medidos en la ventana.
-- `avg`: tiempo promedio de ejecución de la tarea en la ventana (µs).
-- `win`: WCET máximo observado dentro de la ventana actual (µs).
-- `max`: WCET máximo acumulado desde el arranque (µs).
-- `CPU:avg/wcet`: utilización estimada del CPU, asumiendo período de tarea = 1000 µs.
-
-La Tabla 4.4 resume los resultados consolidados obtenidos con el sistema en estado estable (modo NORMAL, joystick en reposo, sin pulsaciones de botones).
+La Tabla 4.4 resume los resultados de tiempo de ejecución (WCET) obtenidos experimentalmente por tarea con el sistema en estado estable (modo NORMAL, joystick en reposo, sin pulsaciones de botones).
 
 <p align="center"><em>Tabla 4.4: Resultados de WCET por tarea (ventana de ~10 s en estado estable).</em></p>
 
-| Tarea | Período [$\mu s$] | Cavg [$\mu s$] | WCETw máx [$\mu s$] | WCET *max* desde arranque [$\mu s$] |
+| Tarea | Período [µs] | Cavg [µs] | WCETw máx [µs] | WCET max desde arranque [µs] |
 | :--- | ---: | ---: | ---: | ---: |
 | `logger_update` | 1000 | 1 | 424 | 424 |
 | `task_sensor_update` | 1000 | 12 | 15 | 22 |
@@ -615,15 +602,13 @@ La Tabla 4.4 resume los resultados consolidados obtenidos con el sistema en esta
 
 Para evaluar la carga temporal del sistema se calculó el factor de utilización de CPU:
 
-$$U = \sum_{i=1}^{n} \frac{C_i}{T_i}$$
-
-Donde $C_i$ es el WCET de la tarea $i$ (medido en §4.6) y $T_i = 1000\ \mu s$ su período de activación.
+Donde C_i es el WCET de la tarea medido en la sección 4.6 y T_i = 1000 µs su período de activación.
 
 La Tabla 4.5 resume los parámetros y resultados del cálculo de U, considerando dos escenarios: el promedio de ejecución observado (U\_{avg}) y el WCET de la ventana (U\_{wcet}) excluyendo el *outlier* de display.
 
 <p align="center"><em>Tabla 4.5: Parámetros utilizados para el cálculo de U. (*) Se utiliza Cavg para display por ser el *outlier* de 30 307 µs un evento aislado de inicialización.</em></p>
 
-| Tarea | $C_i$ Cavg [$\mu s$] | $C_i$ WCETw [$\mu s$] | $T_i$ [$\mu s$] | $C_i/T_i$ (avg) | $C_i/T_i$ (wcet) |
+| Tarea | C_i Cavg [µs] | C_i WCETw [µs] | T_i [µs] | C_i/T_i (avg) | C_i/T_i (wcet) |
 | :--- | ---: | ---: | ---: | ---: | ---: |
 | `logger_update` | 1 | 424 | 1000 | 0,001 | 0,424 |
 | `task_sensor_update` | 12 | 15 | 1000 | 0,012 | 0,015 |
@@ -633,7 +618,7 @@ La Tabla 4.5 resume los parámetros y resultados del cálculo de U, considerando
 | **Total (U)** | — | — | — | **0,155** | **0,587** |
 
 
-El valor $U_{avg} = 0{,}155$ (15,5 %) confirma que en régimen permanente el sistema opera con amplio margen temporal. El valor $U_{wcet} = 0{,}587$ (58,7 %), calculado con el WCET de ventana y el promedio de `task_display_update`, constituye una cota conservadora de uso de CPU en condiciones normales de operación.
+El valor U_avg = 0,155 (15,5 %) confirma que en régimen permanente el sistema opera con amplio margen temporal. El valor U_wcet = 0,587 (58,7 %), calculado con el WCET de ventana y el promedio de `task_display_update`, constituye una cota conservadora de uso de CPU en condiciones normales de operación.
 
 El *outlier* de `task_display_update` (30 307 µs) supera el período de tarea de 1 ms, lo que implica un *overrun* del *super-loop* durante los cambios de pantalla. En una versión posterior del firmware se recomienda convertir las escrituras al LCD a un esquema no bloqueante (eliminando los `HAL_Delay()` internos del driver) para garantizar el cumplimiento del período en todo instante.
 
@@ -697,26 +682,7 @@ Leyenda: 🟢 implementado · 🟡 parcialmente cumplido · 🔴 no implementado
 
 Observación sobre el requisito 10.1: la condición de falla por ADC está contemplada en la FSM (`get_sensor_adc_error()`), pero el chequeo de saturación en `process_adc_data()` está comentado en el código final por considerar que los valores 0 y 4095 pueden ser válidos en el rango de uso del joystick.
 
-### 4.10 Comparación con sistemas similares
 
-La Tabla 4.7 presenta una comparación sintética del SRAGV frente a alternativas comerciales.
-
-<p align="center"><em>Tabla 4.7: Comparación con sistemas similares.</em></p>
-
-| Característica | Controlador Rain Bird (ESP-Rzxe) | Programador básico (Mercado Libre) | SRAGV (este proyecto) |
-| :--- | :---: | :---: | :---: |
-| Inhibición por dirección de viento | No | No | Sí |
-| Inhibición granular por sector | No | No | Sí |
-| Dos lógicas de inhibición configurables | No | No | Sí |
-| Monitoreo remoto en tiempo real | Sí (Wi-Fi) | No | Sí (Bluetooth) |
-| Configuración remota de umbrales | Sí | No | Sí |
-| Interfaz local (display + botones) | Sí | Parcial | Sí |
-| Persistencia de configuración | Sí | Sí | Sí (EEPROM) |
-| Costo de prototipo académico | Alto | Medio | Bajo |
-| Personalización del firmware | No | No | Sí |
-
-
----
 
 ## Capítulo 5: Conclusiones
 
