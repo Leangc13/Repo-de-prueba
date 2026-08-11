@@ -530,23 +530,7 @@ Se validó la interacción completa entre entradas físicas (joystick, DIP *swit
 
 ### 4.4 Medición y análisis de consumo
 
-Metodología aplicada:
-- Medición de consumo total en la línea de 5 V del sistema (NUCLEO + periféricos).
-- Alimentación desde fuente externa conectada a los pines `5 V` y `GND` de la placa.
-- Medición de corriente con multímetro en serie sobre la línea de `5 V`.
-- Medición de tensión en bornes de entrada para estimar potencia (`P = V × I`).
-
-Procedimiento realizado:
-1. Desconectar USB/ST-Link para evitar doble alimentación.
-2. Conectar fuente externa a `5 V` y `GND`.
-3. Intercalar amperímetro en serie en la línea de `5 V`.
-4. Medir tensión de entrada en paralelo sobre `5 V–GND`.
-5. Registrar datos en los modos: NORMAL sin BT conectado, NORMAL con BT conectado, y MODO_FALLA (buzzer + LED activos).
-6. Registrar el valor pico observado por el multímetro en cada modo.
-
-Alcance de la medición: el riel de 3,3 V queda incluido indirectamente, ya que se genera desde 5 V mediante el regulador de la placa.
-
-La Tabla 4.3 resume los valores pico de corriente y potencia medidos en distintos modos de operación.
+Para evaluar el consumo energético, se midió la corriente total suministrada al sistema (NUCLEO y periféricos). La Tabla 4.3 resume los valores pico de corriente y potencia medidos en los distintos modos de operación.
 
 <p align="center"><em>Tabla 4.3: Consumo total medido a 5 V (valores pico).</em></p>
 
