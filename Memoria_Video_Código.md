@@ -557,11 +557,10 @@ Teniendo en cuenta las características del microcontrolador utilizado (STM32F10
 
 Ambas memorias cuentan con amplio margen disponible (más del 75 % libre). Esto garantiza factibilidad técnica para agregar nuevas funcionalidades al firmware en versiones futuras (por ejemplo, librerías de encriptación BLE, nuevas máquinas de estado o almacenamiento masivo) sin riesgo inminente de agotar los recursos.
 
-> [!NOTE]
-> Podés reemplazar este recuadro por la captura de pantalla de la consola de compilación o de la vista de Build Analyzer.
-
-<p align="center"><em>Figura 4.1: Reporte de compilación y uso de Flash / RAM.</em></p>
-
+<div align="center">
+  <img width="649" height="97" alt="reporte compilacion" src="https://github.com/user-attachments/assets/976e593a-965f-45fd-917f-92a4fcae6f81" />
+  <p align="center"><em>Figura 4.1: Reporte de compilación y uso de Flash / RAM.</em></p>
+</div>
 
 ### 4.6 Medición y análisis de WCET por tarea
 
