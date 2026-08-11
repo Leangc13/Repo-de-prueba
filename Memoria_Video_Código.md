@@ -90,6 +90,7 @@ En esta sección se presentan los requisitos del sistema, los casos de uso ident
 A lo largo del ciclo de vida del proyecto, los requisitos funcionales experimentaron una evolución. Durante la etapa de planificación, se plantearon las funcionalidades base que debía cumplir el prototipo para garantizar un control de riego eficiente y adaptable al viento. La Tabla 2.1 detalla esta primera aproximación de los requisitos.
 
 <p align="center"><em>Tabla 2.1: Requisitos funcionales preliminares (fase de ideación).</em></p>
+
 | **Grupo** | **ID** | **Descripción** |
 | :--- | :---: | :--- |
 | **Sensores analógicos** | **RQ01** | El sistema contará con un joystick analógico para emular la velocidad y dirección del viento, conectado al ADC del microcontrolador. |
@@ -103,6 +104,7 @@ A lo largo del ciclo de vida del proyecto, los requisitos funcionales experiment
 Posteriormente, conforme avanzó el desarrollo del firmware y la selección de la arquitectura de hardware, los requerimientos iniciales se desglosaron y refinaron para cubrir todos los aspectos operativos del sistema. La Tabla 2.2 presenta la versión definitiva de los requisitos implementados.
 
 <p align="center"><em>Tabla 2.2: Requisitos funcionales definitivos del sistema.</em></p>
+
 | **Grupo** | **ID** | **Descripción** |
 | :--- | :---: | :--- |
 | **Sensores analógicos** | **1.1** | El sistema contará con un joystick analógico para emular velocidad y dirección del viento, conectado a dos canales ADC del STM32. |
@@ -153,6 +155,7 @@ Se identificaron tres casos de uso principales, detallados en las Tablas 2.3 a 2
 La Tabla 2.3 describe el caso de uso más frecuente: el ciclo de riego completo bajo condiciones de viento bajo.
 
 <p align="center"><em>Tabla 2.3: Caso de uso 1 — ciclo de riego completo con viento bajo.</em></p>
+
 | **Elemento** | **Definición** |
 | :--- | :--- |
 | Disparador | El temporizador interno indica que se cumplió el intervalo de riego configurado y el joystick indica velocidad de viento baja (por debajo del umbral moderado). |
@@ -164,6 +167,7 @@ La Tabla 2.3 describe el caso de uso más frecuente: el ciclo de riego completo 
 La Tabla 2.4 describe el caso de uso de riego parcial, que constituye el escenario central del sistema: la inhibición de sectores por viento moderado.
 
 <p align="center"><em>Tabla 2.4: Caso de uso 2 — riego parcial por viento moderado.</em></p>
+
 | **Elemento** | **Definición** |
 | :--- | :--- |
 | Disparador | El temporizador interno indica que se cumplió el intervalo de riego, pero el joystick indica viento moderado (supera el umbral moderado y no alcanza el crítico) con dirección Norte. |
@@ -177,6 +181,7 @@ La Tabla 2.4 describe el caso de uso de riego parcial, que constituye el escenar
 Por último, la Tabla 2.5 detalla la configuración de parámetros en el Modo SET_UP, operación que permite al usuario adaptar el comportamiento del sistema a su instalación.
 
 <p align="center"><em>Tabla 2.5: Caso de uso 3 — configuración de umbrales en Modo SET_UP.</em></p>
+
 | **Elemento** | **Definición** |
 | :--- | :--- |
 | Disparador | El usuario desea modificar el umbral de viento moderado, el umbral de viento crítico, la duración del ciclo de riego, la opción de riego nocturno o la lógica de inhibición. |
@@ -475,6 +480,7 @@ Esta sección presenta los ensayos realizados sobre el prototipo SRAGV, incluyen
 La Tabla 4.1 resume los ensayos funcionales de hardware realizados y su estado de validación.
 
 <p align="center"><em>Tabla 4.1: Ensayos funcionales de hardware.</em></p>
+
 | Ensayo | Resultado | Estado |
 | :--- | :--- | :---: |
 | Integridad eléctrica del circuito (continuidad) | Validación previa a energización | ✅ |
@@ -495,6 +501,7 @@ La Tabla 4.1 resume los ensayos funcionales de hardware realizados y su estado d
 La Tabla 4.2 resume los ensayos funcionales de firmware realizados y su estado de validación.
 
 <p align="center"><em>Tabla 4.2: Ensayos funcionales de firmware.</em></p>
+
 | Ensayo | Resultado | Estado |
 | :--- | :--- | :---: |
 | *Debounce* de botones (ENTER, UP, DOWN) | Eventos limpios sobre FSM; ventana de 50 ms efectiva | ✅ |
@@ -542,6 +549,7 @@ Alcance de la medición: el riel de 3,3 V queda incluido indirectamente, ya que 
 La Tabla 4.3 resume los valores pico de corriente y potencia medidos en distintos modos de operación.
 
 <p align="center"><em>Tabla 4.3: Consumo total medido a 5 V (valores pico).</em></p>
+
 | Modo | $I_{pico}$ @ 5 V [mA] | $P_{pico}$ @ 5 V [W] | Observaciones |
 | :--- | ---: | ---: | :--- |
 | NORMAL sin módulo BT | 29,8 | 0,149 | Corriente base del MCU (con WFI sleep), sensores y LCD. |
@@ -589,6 +597,7 @@ Donde:
 La Tabla 4.4 resume los resultados consolidados obtenidos con el sistema en estado estable (modo NORMAL, joystick en reposo, sin pulsaciones de botones).
 
 <p align="center"><em>Tabla 4.4: Resultados de WCET por tarea (ventana de ~10 s en estado estable).</em></p>
+
 | Tarea | Período [$\mu s$] | Cavg [$\mu s$] | WCETw máx [$\mu s$] | WCET *max* desde arranque [$\mu s$] |
 | :--- | ---: | ---: | ---: | ---: |
 | `logger_update` | 1000 | 1 | 424 | 424 |
@@ -613,6 +622,7 @@ Donde $C_i$ es el WCET de la tarea $i$ (medido en §4.6) y $T_i = 1000\ \mu s$ s
 La Tabla 4.5 resume los parámetros y resultados del cálculo de U, considerando dos escenarios: el promedio de ejecución observado (U\_{avg}) y el WCET de la ventana (U\_{wcet}) excluyendo el *outlier* de display.
 
 <p align="center"><em>Tabla 4.5: Parámetros utilizados para el cálculo de U. (*) Se utiliza Cavg para display por ser el *outlier* de 30 307 µs un evento aislado de inicialización.</em></p>
+
 | Tarea | $C_i$ Cavg [$\mu s$] | $C_i$ WCETw [$\mu s$] | $T_i$ [$\mu s$] | $C_i/T_i$ (avg) | $C_i/T_i$ (wcet) |
 | :--- | ---: | ---: | ---: | ---: | ---: |
 | `logger_update` | 1 | 424 | 1000 | 0,001 | 0,424 |
@@ -641,6 +651,7 @@ En una versión orientada a producto, correspondería profundizar esta estrategi
 La Tabla 4.6 resume el cumplimiento final de los requisitos de la Tabla 2.2.
 
 <p align="center"><em>Tabla 4.6: Cumplimiento final de requisitos.</em></p>
+
 | ID | Requisito (resumen) | Hardware | Firmware | Estado |
 | :---: | :--- | :---: | :---: | :---: |
 | 1.1 | Joystick analógico — emulación de viento | 🟢 | 🟢 | ✅ |
@@ -691,6 +702,7 @@ Observación sobre el requisito 10.1: la condición de falla por ADC está conte
 La Tabla 4.7 presenta una comparación sintética del SRAGV frente a alternativas comerciales.
 
 <p align="center"><em>Tabla 4.7: Comparación con sistemas similares.</em></p>
+
 | Característica | Controlador Rain Bird (ESP-Rzxe) | Programador básico (Mercado Libre) | SRAGV (este proyecto) |
 | :--- | :---: | :---: | :---: |
 | Inhibición por dirección de viento | No | No | Sí |
